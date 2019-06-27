@@ -1,4 +1,6 @@
 matplotlib
 black
 colour
-
+wheel
+twine
+setuptools
