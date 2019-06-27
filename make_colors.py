@@ -4,8 +4,12 @@ from string import ascii_letters, digits
 from datetime import datetime
 from pathlib import Path
 
+import black
 import matplotlib
 from matplotlib import colors as mcolors
+
+
+LINE_LENGTH = 79
 
 valid_chars = set(ascii_letters + digits + "_")
 
@@ -20,13 +24,14 @@ def sanitise_name(s):
     s = s.strip().upper()
     if s[0] in digits:
         s = "_" + s
-    s = s.replace('/', ' SLASH ')
+    s = s.replace("/", " SLASH ")
     return "".join(c if c in valid_chars else "_" for c in s)
 
 
 def make_key_fn(color_key_fn=mcolors.rgb_to_hsv):
     def fn(name_rgb):
         return tuple(color_key_fn(name_rgb[1])), name_rgb[0]
+
     return fn
 
 
@@ -44,6 +49,7 @@ def make_enum_code(name, mapping, name_fn=None):
         " " * 4 + f"{sanitise_name(name_fn(k))} = {v}"
         for k, v in sort_color_mapping(rgb_mapping).items()
     )
+
     return enum_template.format(name=name, vals=vals)
 
 
@@ -71,14 +77,17 @@ def make_module_code():
             timestamp=datetime.utcnow().isoformat(), version=matplotlib.__version__
         ),
         make_enum_code("BaseColor", mcolors.BASE_COLORS),
-        make_enum_code("TableauColor", grey_duplicates(mcolors.TABLEAU_COLORS), lambda s: s[4:]),
+        make_enum_code(
+            "TableauColor", grey_duplicates(mcolors.TABLEAU_COLORS), lambda s: s[4:]
+        ),
         make_enum_code(
             "XkcdColor", grey_duplicates(mcolors.XKCD_COLORS), lambda s: s[5:]
         ),
         make_enum_code("Css4Color", mcolors.CSS4_COLORS),
         make_enum_code("Color", mcolors.get_named_colors_mapping()),
     ]
-    return "\n\n\n".join(elements) + "\n"
+    s = "\n\n\n".join(elements) + "\n"
+    return black.format_str(s, mode=black.FileMode({black.TargetVersion.PY36}))
 
 
 def main():
