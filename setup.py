@@ -13,7 +13,7 @@ setup(
     url="https://github.com/clbarnes/mpl_colors",
     license="MIT",
     author="Chris L. Barnes",
-    install_requires=["colour"],
+    install_requires=["colour", "numpy", "matplotlib"],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "License :: OSI Approved :: MIT License",

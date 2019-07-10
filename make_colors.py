@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""Script to generate color enums.
+
+Depends on black and matplotlib.
+"""
 import argparse
 from string import ascii_letters, digits
 from datetime import datetime

@@ -4,3 +4,4 @@ colour
 wheel
 twine
 setuptools
+numpy
