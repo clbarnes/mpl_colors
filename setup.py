@@ -8,7 +8,7 @@ long_description = (root / "README.md").read_text()
 
 setup(
     name="mpl_colors",
-    version="0.1.0",
+    version="0.2.0",
     packages=["mpl_colors"],
     url="https://github.com/clbarnes/mpl_colors",
     license="MIT",
